@@ -51,6 +51,7 @@ class RecipeCard extends HTMLElement {
 		if (!data) return;
 
 		// A6. TODO - Select the <article> we added to the Shadow DOM in the constructor
+		const articleEl = this.shadowRoot.querySelector('article');
 		// A7. TODO - Set the contents of the <article> with the <article> template given in
 		//           cardTemplate.html and the data passed in (You should only have one <article>,
 		//           do not nest an <article> inside another <article>). You should use template
@@ -58,8 +59,64 @@ class RecipeCard extends HTMLElement {
 		// 			 Do NOT include the <article> tags within the innerHTML of the element you create.
 		//           Remember to replace all the placeholders in the template with the data passed in.
 		//           i.e. imgSrc, titleLnk, etc
+
+		//sets the img element
+		let imgUrl;
+		if (this.hasAttribute("img")) {
+		imgUrl = this.getAttribute("img");
+		} else {
+		imgUrl = data.imgSrc;
+		}
+		const img = document.createElement('img');
+		img.src = imgUrl;
+		img.alt = data.imgAlt;
+
+		//sets the title element
+		const titleEl = document.createElement('p');
+		titleEl.className = 'title';
+		const titleLink = document.createElement('a');
+		titleLink.setAttribute('href', data.titleLink);
+		titleLink.innerHTML = data.titleTxt;
+		titleEl.appendChild(titleLink);
+
+		//sets the organization element
+		const orgEl = document.createElement('p');
+		orgEl.className = 'organization';
+		orgEl.innerHTML = data.organization;
+
+		//sets the rating element
+		const ratingEl = document.createElement('div');
+		ratingEl.className = 'rating';
+		const rateNum = document.createElement('span');
+		rateNum.innerHTML = data.rating;
+		const rateImg = document.createElement('img');
+		rateImg.src = `/assets/images/icons/${data.rating}-star.svg`;
+		rateImg.alt = `${data.rating} stars`;
+		const numRate = document.createElement('span');
+		numRate.innerHTML = data.numRatings;
+		ratingEl.appendChild(rateNum);
+		ratingEl.appendChild(rateImg);
+		ratingEl.appendChild(numRate);
+
+		//creates the time element
+		const timeEl = document.createElement('time');
+		timeEl.innerHTML = data.lengthTime;
+
+		//creates the ingredients element
+		const ingredEl = document.createElement('p');
+		ingredEl.className = 'ingredients';
+		ingredEl.innerHTML = data.ingredients;
+
+		//attatches all elements to the article
+		articleEl.appendChild(img);
+		articleEl.appendChild(titleEl);
+		articleEl.appendChild(orgEl);
+		articleEl.appendChild(ratingEl);
+		articleEl.appendChild(timeEl);
+		articleEl.appendChild(ingredEl);
 	}
 }
 
 // A8. TODO - Define the Class as a customElement so that you can create
 //           'recipe-card' elements
+customElements.define('recipe-card', RecipeCard);
