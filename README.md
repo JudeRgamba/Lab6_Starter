@@ -1,3 +1,2 @@
 # Lab 6 - Starter
-Jude Gamba
-Kyle Long
+Jude Gamba, Kyle Long
